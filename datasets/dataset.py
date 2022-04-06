@@ -29,8 +29,8 @@ class UrbanSoundDataset(Dataset):
         label = self._get_audio_sample_label(item)
         signal, sr = torchaudio.load(audio_sample_path)
         signal = signal.to(self.device)
-        signal = self._mix_down_if_necessary(signal)
         signal = self._resample_if_necessary(signal, sr)
+        signal = self._mix_down_if_necessary(signal)
         signal = self._cut_if_necessary(signal)
         signal = self._right_pad_if_necessary(signal)
         signal = self.transformation(signal)
@@ -50,8 +50,8 @@ class UrbanSoundDataset(Dataset):
         return signal
 
     def _resample_if_necessary(self, signal, sr):
-        if self.target_sample_rate != sr:
-            resample = torchaudio.transforms.Resample(sr, self.target_sample_rate)
+        if sr != self.target_sample_rate:
+            resample = torchaudio.transforms.Resample(sr, self.target_sample_rate).to(self.device)
             signal = resample(signal)
         return signal
 

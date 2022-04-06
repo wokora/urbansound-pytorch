@@ -15,7 +15,7 @@ if __name__ == "__main__":
     if torch.cuda.is_available():
         device = 'cuda'
 
-    print(f"Using Device {device}")
+    print(f"Using device {device}")
 
     mel_spectogram = torchaudio.transforms.MelSpectrogram(
         sample_rate=SAMPLE_RATE,
@@ -34,4 +34,4 @@ if __name__ == "__main__":
     print(f'There are {len(usd)} samples')
 
     cnn = CNNNetwork()
-    summary(cnn.to(device), (1, 64, 44))
+    cnn = cnn.to(device)
