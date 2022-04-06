@@ -1,11 +1,12 @@
+import torch
 from torch import nn
+from torchsummary import summary
 
 
 class CNNNetwork(nn.Module):
 
     def __init__(self):
         super().__init__()
-        # 4 convolution blocks / flatten / linear / softmax
         self.conv1 = nn.Sequential(
             nn.Conv2d(
                 in_channels=1,

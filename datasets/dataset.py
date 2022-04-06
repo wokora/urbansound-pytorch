@@ -67,4 +67,4 @@ class UrbanSoundDataset(Dataset):
         return path
 
     def _get_audio_sample_label(self, item):
-        return self.annotations.iloc[item, 5]
+        return self.annotations.iloc[item, 6]
