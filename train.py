@@ -3,15 +3,12 @@ import torch
 import torchaudio
 from torch import nn
 from torch.utils.data import DataLoader
-from datasets.dataset import UrbanSoundDataset
+from datasets.urbansound import UrbanSoundDataset
 from networks.cnn import CNNNetwork
 
 BATCH_SIZE = 128
 EPOCHS = 15
 LEARNING_RATE = 0.001
-
-SAMPLE_RATE = 22050
-NUM_SAMPLES = 22050
 
 device = "cpu"
 if torch.cuda.is_available():
@@ -52,7 +49,7 @@ if __name__ == "__main__":
 
     # instantiating our dataset object and create data loader
     mel_spectrogram = torchaudio.transforms.MelSpectrogram(
-        sample_rate=SAMPLE_RATE,
+        sample_rate=Config.SAMPLE_RATE,
         n_fft=1024,
         hop_length=512,
         n_mels=64
@@ -61,8 +58,8 @@ if __name__ == "__main__":
     usd = UrbanSoundDataset(Config.ANNOTATIONS_FILE,
                             Config.AUDIO_DIRECTORY,
                             mel_spectrogram,
-                            SAMPLE_RATE,
-                            NUM_SAMPLES,
+                            Config.SAMPLE_RATE,
+                            Config.NUM_SAMPLES,
                             device)
 
     # create data loader

@@ -1,9 +1,8 @@
 from config import Config
-from train import SAMPLE_RATE, NUM_SAMPLES
 import torch
 import torchaudio
 from networks.cnn import CNNNetwork
-from datasets.dataset import UrbanSoundDataset
+from datasets.urbansound import UrbanSoundDataset
 
 class_mapping = [
     "air_conditioner",
@@ -42,7 +41,7 @@ if __name__ == "__main__":
     # load UrbanSoundDataset validation dataset
 
     mel_spectrogram = torchaudio.transforms.MelSpectrogram(
-        sample_rate=SAMPLE_RATE,
+        sample_rate=Config.SAMPLE_RATE,
         n_fft=1024,
         hop_length=512,
         n_mels=64
@@ -51,8 +50,8 @@ if __name__ == "__main__":
     usd = UrbanSoundDataset(Config.ANNOTATIONS_FILE,
                             Config.AUDIO_DIRECTORY,
                             mel_spectrogram,
-                            SAMPLE_RATE,
-                            NUM_SAMPLES,
+                            Config.SAMPLE_RATE,
+                            Config.NUM_SAMPLES,
                             device)
 
 

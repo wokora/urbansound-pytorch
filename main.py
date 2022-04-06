@@ -4,7 +4,7 @@ import torch.cuda
 import torchaudio.transforms
 from torchsummary import summary
 
-from datasets.dataset import UrbanSoundDataset
+from datasets.urbansound import UrbanSoundDataset
 
 if __name__ == "__main__":
 
