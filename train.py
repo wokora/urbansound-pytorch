@@ -7,18 +7,23 @@ from datasets.dataset import UrbanSoundDataset
 from networks.cnn import CNNNetwork
 
 BATCH_SIZE = 128
-EPOCHS = 10
+EPOCHS = 15
 LEARNING_RATE = 0.001
 
 SAMPLE_RATE = 22050
 NUM_SAMPLES = 22050
+
+device = "cpu"
+if torch.cuda.is_available():
+    device = "cuda"
+
 
 def create_data_loader(train_data, batch_size):
     train_dataloader = DataLoader(train_data, batch_size=batch_size)
     return train_dataloader
 
 
-def train_single_epoch(model, data_loader, loss_fn, optimiser, device):
+def train_single_epoch(model, data_loader, loss_fn, optimiser):
     for input, target in data_loader:
         input, target = input.to(device), target.to(device)
 
@@ -34,20 +39,15 @@ def train_single_epoch(model, data_loader, loss_fn, optimiser, device):
     print(f"loss: {loss.item()}")
 
 
-def train(model, data_loader, loss_fn, optimiser, device, epochs):
+def train(model, data_loader, loss_fn, optimiser, epochs):
     for i in range(epochs):
-        print(f"Epoch {i+1}")
-        train_single_epoch(model, data_loader, loss_fn, optimiser, device)
+        print(f"Epoch {i + 1}")
+        train_single_epoch(model, data_loader, loss_fn, optimiser)
         print("---------------------------")
     print("Finished training")
 
 
 if __name__ == "__main__":
-
-    device = "cpu"
-    if torch.cuda.is_available():
-        device = "cuda"
-
     print(f"Using Device {device}")
 
     # instantiating our dataset object and create data loader
@@ -77,7 +77,7 @@ if __name__ == "__main__":
                                  lr=LEARNING_RATE)
 
     # train model
-    train(cnn, train_data_loader, loss_fn, optimiser, device, EPOCHS)
+    train(cnn, train_data_loader, loss_fn, optimiser, EPOCHS)
 
     # save model
     torch.save(cnn.state_dict(), "feedforwardnet.pth")
