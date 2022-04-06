@@ -1,8 +1,10 @@
 from config import Config
+from networks.cnn import CNNNetwork
 import torch.cuda
 import torchaudio.transforms
+from torchsummary import summary
 
-from dataset import UrbanSoundDataset
+from datasets.dataset import UrbanSoundDataset
 
 if __name__ == "__main__":
 
@@ -31,6 +33,5 @@ if __name__ == "__main__":
 
     print(f'There are {len(usd)} samples')
 
-    signal, label = usd[1]
-
-    a = 1
+    cnn = CNNNetwork()
+    summary(cnn.to(device), (1, 64, 44))
