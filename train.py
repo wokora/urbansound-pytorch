@@ -45,7 +45,7 @@ def train(model, data_loader, loss_fn, optimiser, epochs):
 
 
 if __name__ == "__main__":
-    print(f"Using Device {device}")
+    print(f"Device : {device}")
 
     # instantiating our dataset object and create data loader
     mel_spectrogram = torchaudio.transforms.MelSpectrogram(
@@ -70,12 +70,11 @@ if __name__ == "__main__":
 
     # initialise loss funtion + optimiser
     loss_fn = nn.CrossEntropyLoss()
-    optimiser = torch.optim.Adam(cnn.parameters(),
-                                 lr=LEARNING_RATE)
+    optimiser = torch.optim.Adam(cnn.parameters(), lr=LEARNING_RATE)
 
     # train model
     train(cnn, train_data_loader, loss_fn, optimiser, EPOCHS)
 
     # save model
-    torch.save(cnn.state_dict(), "feedforwardnet.pth")
+    torch.save(cnn.state_dict(), Config.MODEL_NAME)
     print("Trained feed forward net saved at feedforwardnet.pth")

@@ -21,6 +21,7 @@ device = "cpu"
 if torch.cuda.is_available():
     device = "cuda"
 
+
 def predict(model, input, target, class_mapping):
     model.eval()
     with torch.no_grad():
@@ -33,13 +34,11 @@ def predict(model, input, target, class_mapping):
 
 if __name__ == "__main__":
     # load back the model
-
     cnn = CNNNetwork().to(device)
-    state_dict = torch.load("feedforwardnet.pth")
+    state_dict = torch.load(Config.MODEL_NAME)
     cnn.load_state_dict(state_dict=state_dict)
 
     # load UrbanSoundDataset validation dataset
-
     mel_spectrogram = torchaudio.transforms.MelSpectrogram(
         sample_rate=Config.SAMPLE_RATE,
         n_fft=1024,
@@ -53,7 +52,6 @@ if __name__ == "__main__":
                             Config.SAMPLE_RATE,
                             Config.NUM_SAMPLES,
                             device)
-
 
     # get a sample from urban sound dataset for inference
     input, target = usd[0][0], usd[0][1]
